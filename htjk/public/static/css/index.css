@@ -1,0 +1,48 @@
+#Container{
+    width:100%;
+    height: 100%;
+    margin:0 auto;/*设置整个容器在浏览器中水平居中*/
+   /* background:#CF3;*/
+}
+#Content{
+    height:100%;
+    /*此处对容器设置了高度，一般不建议对容器设置高度，一般使用overflow:auto;属性设置容器根据内容自适应高度，如果不指定高度或不设置自适应高度，容器将默认为1个字符高度，容器下方的布局元素（footer）设置margin-top:属性将无效*/
+    margin-top:20px;/*此处讲解margin的用法，设置content与上面header元素之间的距离*/
+
+}
+#Content-Left{
+
+    height:420px;
+    width:100%;
+/*    background-image:url(../img/118.jpg); 
+    background-repeat:no-repeat;
+    background-size: 100% 100%;  */  
+
+
+  
+
+}
+#div1{
+    background:#FC7BA0;
+  /*  background-image:url(../img/index/test_1.png); 
+    background-repeat:no-repeat;
+    background-size: 100% 100%;*/
+    height:33.3%;
+    width:100%;
+}
+#div2{
+    background:#6FE8F9;
+  /*  background-image:url(../img/index/test_2.png); 
+    background-repeat:no-repeat;
+    background-size: 100% 100%;*/
+    height:33.3%;
+    width:100%; 
+}
+#div3{
+     background:#A68FF9;
+   /* background-image:url(../img/index/test_3.png); 
+    background-repeat:no-repeat;
+    background-size: 100% 100%;*/
+    height:33.3%;
+    width:100%;
+}

@@ -1,0 +1,197 @@
+<!--上传图片支持-->
+<script src="__PUBLIC__/static/js/fileinput.js" type="text/javascript"></script>
+<script src="__PUBLIC__/static/js/fileinput_locale_zh.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/default.css">
+<link href="__PUBLIC__/static/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<!--<div data-role="header">-->
+<!--<h1>在线测试</h1>-->
+<!--</div>-->
+
+<div data-role="content"  style="margin-bottom:10%;" id="content">
+    <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" enctype="multipart/form-data" action="{:url('index/test/add_onlinetest')}">
+        <p id="name_price">{$price.p_name}</p>
+
+        <p>现价：
+            <font color="red">￥
+                <i id="present_price">{$price.p_price}</i>
+            </font>
+            元/人次
+        </p>
+        <div class="ui-field-contain">
+            <label for="predict_height">预测身高:</label>
+            <select name="predict_height" id="predict_height" data-role="flipswitch">
+                <option value="0">不要</option>
+                <option value="1">要</option>
+            </select>
+        </div>
+
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                测试人图片 <font color="red">• 必填</font>
+            </li>
+        </ul>
+
+        <div class="ui-field-contain">
+            <p>上传示例：</p>
+            <img src="__PUBLIC__/images/demo.png" alt="">
+            <label for="hands_photo"><font color="red">• </font>手部X光片上传:</label>
+            <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1" value="">
+        </div>
+        {if condition="$info neq null"}
+            <br>
+            <p>性别： <font color="" id="">
+                {if condition="$info['gender'] eq 1"/}男
+                {else/}女
+                {/if}
+            </font></p>
+            <p>出生日期： <font>{$info['birthday']}</font></p>
+            <p>身份证号： <font>{$info['id_number']}</font></p>
+            <p>出生时身高： <font>{$info['birth_height']}cm</font></p>
+            <p>出生时体重： <font>{$info['birth_weight']}kg</font></p>
+            <p>是否顺产： <font>
+                {if condition="$info['birth_smoothly'] eq 1"/}是
+                {else/}否
+                {/if}
+            </font></p>
+            <p>父亲身高： <font>{$info['father_height']}cm</font></p>
+            <p>母亲身高： <font>{$info['mother_height']}cm</font></p>
+            <p>地址： <font>{$info['contact_address']}</font></p>
+            <p>邮件： <font>{$info['email']}</font></p>
+            <p>学校： <font>{$info['school']}</font></p>
+            {if condition="$info['gender'] eq 1"/}
+                <div class="ui-field-contain">
+                <label for="menarche">是否遗精:</label>
+                <select name="spermatorrhea" id="menarche" data-role="flipswitch">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            {else/}
+                <div class="ui-field-contain">
+                <label for="menarche">是否初潮:</label>
+                <select name="menarche" id="menarche" data-role="flipswitch">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            {/if}
+        {else/}
+
+        {/if}
+        <div class="ui-field-contain">
+            <label for="need_report">纸质报告:</label>
+            <select name="need_report" id="need_report" data-role="flipswitch">
+                <option value="0">不要</option>
+                <option value="1">要</option>
+            </select>
+        </div>
+
+        <div data-role="navbar" class="ui-content" id="content_bottom">
+            <ul>
+                <li></li>
+                <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:document.form_onlinetest.reset()" data-rel="dialog">取消</a></li>
+                <li></li>
+                <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="form_submit">确认</a></li>
+                <li></li>
+            </ul>
+        </div>
+
+    </form>
+</div>
+
+
+<script>
+    $(function () {
+        //初始化页面状态
+        $(".ui-field-contain div").removeClass('ui-flipswitch-active');
+        //判断用户是否以及登录
+        $.ajax({
+            url:"{:url('index/test/ajax_login_status')}",
+            type:'get',
+            success:function (status) {
+                if(status==0){
+                    $('#content_bottom').hide();
+
+                    $(".ui-field-contain div").addClass("ui-state-disabled","mobile-flipswitch-disabled");
+                    $(".ui-field-contain a").attr("disabled","disabled");
+                    $(".ui-field-contain input").attr("disabled","disabled");
+                    $(".ui-field-contain select").attr("disabled","disabled");
+                    $("#content div").on("click",function () {
+                        login_confirm();
+                    });
+                }
+            },
+            error:function () {
+                alert('异常，连接失败！')
+            }
+        });
+
+        //根据 “预测身高” 变化
+        $('#predict_height').on('change',function() {
+            //获取select的值
+            var predict_height=$('#predict_height').val();
+            //筛选出 premium对象（加价）
+            var premium=$("font[name='premium']");
+
+            $.ajax({
+                url:"{:url('index/test/ajax_price')}",
+                data:{predict_height:predict_height},
+                type:"get",
+                dataType:'json',
+                success:function (price_arr) {
+                    $("#name_price").html(price_arr.p_name);
+                    $("#present_price").html(price_arr.p_price);
+                },
+                error:function () {
+                    alert('异常，连接失败！')
+                }
+            });
+        });
+
+        //提交
+        $('#form_submit').click(function () {
+            autosubmit();
+        })
+    });
+
+    //确认取消
+    function login_confirm(){
+        var r=confirm("您还没登录，请前往登录！");
+        if (r==true)
+            location.href="{:url('index/login/index')}";
+//        else location.href="{:url('index/index/index')}"
+    }
+
+    /**
+     * 检测数据和提交
+     */
+    function autosubmit() {
+        var status=1;
+
+        //通过文件后缀判断是否是图片
+        var reg_img=/\.jpg$|\.jpeg$|\.png$|\.img$|\.gif$/i;
+        var obj_photo=$("input[name='hands_photo']")[0];
+        var the_photo=$('#hands_photo').val();
+        if(!reg_img.test(the_photo)){
+            status=0;
+            alert('手部图片只能上传jpg jpeg img gif格式的！');
+            return ;
+        }else {
+//            var image=new Image();
+//            var size=obj_photo.files[0].size;
+//            if(size>5242880){
+//                status=0;
+//                alert('图片大小超出限制！');
+//                return ;
+//            }
+        }
+
+        if(status){
+            var form=$('#form_onlinetest');
+            form.submit();
+        }
+    }
+</script>

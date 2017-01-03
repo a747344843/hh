@@ -1,0 +1,102 @@
+
+    <link rel="stylesheet" href="__PUBLIC__/static/css/stylea.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/index/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/index/css/swiper-3.4.0.min.css"/>
+</head>
+<body>
+<!--幻灯片 开始-->
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.flexslider').flexslider({
+            slideshowSpeed: 3000, // 自动 效果播放时长
+            animationSpeed: 2000, //  图片 滑动的时间
+            controlNav: true,
+            directionNav: false,
+            animation: "slide"
+            //manualControls: ".myflexslider .slidenav"
+        });
+    });
+</script>
+
+<div style="background: #ffffff">
+    <div class="flexslider">
+        <ul class="slides">
+            {if condition="!empty($banner)"}
+            {foreach($banner as $v)}
+                <li>
+                    <a data-ajax="false" href="{:url('index/bannerlist')}?b_id={$v.b_id}">
+                        <img src="__PUBLIC__/banner/{$v.banner_path}" style="width: 100%;height: 250px" />
+                    </a>
+                </li>
+            {/foreach}
+            {/if}
+        </ul>
+    </div>
+    <!--幻灯片 结束-->
+<div class="warp">
+
+    <section id="MyScroller">
+
+        <div class="nav">
+            <dl>
+                <a data-ajax="false" href="{:url('index/bone')}">
+                    <dt><img src="__PUBLIC__/index/img/3_05.png"/></dt>
+                    <dd>骨龄测试</dd>
+                </a>
+            </dl>
+            <dl>
+                <dt><img src="__PUBLIC__/index/img/3_05.png"/></dt>
+                <dd><a data-ajax="false" href="{:url('index/skeleton')}">案例分享</a></dd>
+            </dl>
+            {if condition="!empty($banner)"}
+            {foreach($arr as $v)}
+            <dl>
+                <dt><img src="__PUBLIC__/index/img/{$v.img_path}"/></dt>
+                <dd><a data-ajax="false" href=""></a>{$v.content}</dd>
+            </dl>
+            {/foreach}
+            {/if}
+        </div>
+        <div class="main1">
+            <div class="main1_l">
+                <img src="__PUBLIC__/index/img/bone_09.png" alt="" /><h1>热门推荐</h1>
+            </div>
+            <div class="main1_r">
+                <span><a data-ajax="false" href="{:url('index/mesList')}">更多</a></span> >
+            </div>
+        </div>
+        {if condition="!empty($banner)"}
+        {foreach($cat as $v)}
+            <div class="main2">
+                <dl>
+                    <dt><img src="__PUBLIC__/index/img/{$v.img}"/></dt>
+                    <dd>
+                        <h1><a data-ajax="false" href="{:url('index/mesShow')}?id={$v.c_id}">{$v.title}</a></h1>
+                        <h2><img src="__PUBLIC__/index/img/bone_13.png"/>{$v.c_name}</h2>
+                        <h3>3453人点赞</h3></dd>
+                </dl>
+            </div>
+        {/foreach}
+        {/if}
+    </section>
+</div>
+
+<br/>
+<br/>
+
+
+<script src="__PUBLIC__/index/js/swiper-3.4.0.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+//	    nextButton: '.swiper-button-next',
+//		prevButton: '.swiper-button-prev',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false,
+        loop: true
+    });
+</script>

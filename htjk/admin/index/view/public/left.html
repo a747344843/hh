@@ -1,0 +1,115 @@
+<script>
+    $(function(){
+        $('a').click(function(){
+            var _this=$(this);
+            var text=_this.html();
+            var url=_this.attr('href');
+            var one=$('input[name="one"]').val();
+            var two=$('input[name="two"]').val();
+            $('#content').panel({title:one+'->'+two+'->'+'<a target="tt" href="'+url+'">'+text+'</a>'});
+        });
+    });
+</script>
+<div region="west" split="true" title="菜单" style="width:20%;">
+<div class="easyui-panel" style="padding:5px;">
+    <input type="hidden" name="one" value="骨龄后台管理">
+    <input type="hidden" name="two" value="测试数据展示">
+    <ul class="easyui-tree">
+        <li>
+            <span>骨龄后台管理</span>
+            <ul>
+                <li>
+                    <span>测试数据展示</span>
+                    <ul>
+                        <li>
+                            <span><a href="{:url('index/online/index')}" target="tt">在线测试数据</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/locale/index')}" target="tt">现场测试数据</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/diet/index')}" target="tt">饮食记录卡</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/motion/index')}" target="tt">运动记录卡</a></span>
+                        </li>
+                    </ul>
+                    </li>
+                <li>
+                    <span id="two5">免费报告</span>
+                    <ul>
+                        <li>
+                            <span><a href="{:url('index/free/nutrition')}" target="tt">免费营养指导</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/free/motions')}" target="tt">免费运动指导</a></span>
+                        </li>
+                    </ul>
+                </li>                    
+                <li>
+                    <span id="two2">变动数据</span>
+                    <ul>
+                        <li>
+                            <span><a href="{:url('index/activity/index')}" target="tt">现场数据</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/price/index')}" target="tt">金额设置</a></span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span id="two4">首页数据</span>
+                    <ul>
+                        <li>
+                            <span><a href="{:url('index/article/category_article')}" target="tt">分类管理</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/article/listing')}" target="tt">文章列表</a></span>
+                        </li>
+                        <li>
+                            <span><a href="{:url('index/indexpage/setup')}" target="tt">设置前台</a></span>
+                        </li>  
+                        <li>
+                            <span><a href="{:url('index/indexpage/listshow')}" target="tt">前台管理</a></span>
+                        </li> 
+                        <li>
+                            <span><a href="{:url('index/indexpage/banner')}" target="tt">前台轮播</a></span>
+                        </li>                                                                      
+                    </ul>
+                </li>
+                <li>
+                    <span id="two3">个人设置</span>
+                    <ul>
+                        <li>
+                            <span><a href="{:url('index/personal/password')}" target="tt">密码设置</a></span>
+                        </li>
+                        <li>
+                            <span><a href="javascript:void(0)" onclick="return quit()" target="tt">退出</a></span>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</div>
+<script>
+    function quit()
+    {
+        if(confirm("确定要退出吗？"))
+        {
+            $.post("{:url('personal/quit')}",function(data)
+            {
+                if(data==1)
+                {
+                    location.href="login/login";
+                    location.reload()
+                }
+            })
+        }
+        else
+        {
+            return false;
+        }
+    }
+</script>

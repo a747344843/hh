@@ -1,0 +1,35 @@
+
+<html>
+    <body>
+        <div style="text-align:center;margin-top:100px">
+  
+            <!-- <form method="post" action="__URL__/doLogin"> -->
+            <!-- <form > -->
+                用户：<input type="name" name="name" id="name">
+                <br/><br/>
+                密码：<input type="password"  name="pwd" id="pwd" >
+                <br/><br/>
+                <div id="hint"></div>      
+                <input type="button"   value="登录" id="submit" >
+            <!-- </form> -->
+        </div>
+        <script>
+
+
+        $(document).on("click","#submit",function(){
+            var name=$("#name").val();
+            var pwd=$("#pwd").val();
+            $.post("{:url('login/verify')}",{name:name,pwd:pwd},function(data){
+             if(data==1)
+             {
+              location.href="{:url('index/index')}"
+             }else
+             {
+              $('#hint').html("<div style='color:red'>用户名或密码错误</div>");
+             }
+            })
+        })
+
+        </script>
+    </body>
+</html>
