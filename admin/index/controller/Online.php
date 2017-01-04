@@ -7,7 +7,6 @@ use think\Db;
 use think\Request;
 use app\index\model\Onlinetest;
 use app\index\model\Online_report;
-
 class Online extends Common
 {
     //在线测订单

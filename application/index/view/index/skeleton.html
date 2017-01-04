@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>案例情况</title>
+	<style>
+		    ul,li{padding:0;margin:0;height:24px}
+	</style>
+</head>
+<body>
+<ul data-role="listview">
+{foreach name='banner' item='val'}
+    <li><a data-ajax="false" href="{:URL('details')}?id={$val.o_id}">{$val.customer}</a></li>
+{/foreach}
+    <br>
+    <br>
+    <br>
+</ul>
+</body>
+</html>
