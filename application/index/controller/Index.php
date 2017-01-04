@@ -36,11 +36,33 @@ class Index extends Controller
     //案例列表
     public function skeleton()
     {
+        $banner = Db::table('online_report')->join("onlinetest","online_report.type_id = onlinetest.register_id")->select();
+//         var_dump($banner);die;
+        $this->assign('banner',$banner);
         return $this->fetch('skeleton');
     }
     //案例详情
-    public function details()
+    public function details(Request $request)
     {
+        $id = $request->get("id");
+        $where=array("online_report.o_id"=>$id);
+        $show=Db::table('online_report')->join("onlinetest","online_report.type_id = onlinetest.register_id")->where($where)->select();
+//        var_dump($show);die;
+        $arr=array();
+        foreach($show as $key=>$val)
+        {
+            $arr['weight']   = json_decode($val['weight'],true);
+            $arr["chest"] = json_decode($val["chest"],true);
+            $arr["gpbone"] = json_decode($val["gpbone"],true);
+            $arr["chnbone"] = json_decode($val["chnbone"],true);
+            $arr["ch05bone"] = json_decode($val["ch05bone"],true);
+            $arr["tw3c"] = json_decode($val["tw3c"],true);
+            $arr["tw3r"] = json_decode($val["tw3r"],true);
+            $arr["height"] = json_decode($val["height"],true);
+        }
+//       var_dump($arr);die;
+        $this->assign('data',$show[0]);
+        $this->assign('arr',$arr);
         return $this->fetch('details');
     }
     //专家团队介绍
