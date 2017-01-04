@@ -143,15 +143,13 @@ class Article extends Common
         return view('article_add');
     }
     //ajax添加
-    public function article_pots()
+    public function article_pots(Request $request)
     {
         $data['title'] = Request::instance()->post('title');
         $data['url'] = Request::instance()->post('url');
         $data['c_id'] = Request::instance()->post('c_id');
-
         $str=Db::table('article')
             ->insert($data);
-
         if($str=='1'){
             echo '1';
         }else{

@@ -13,8 +13,22 @@ class Index extends Controller
     }
     //热门列表
     public function mesList(){
-        return view('meslist');
+        $c_id=Request::instance()->get('c_id');
+        $c_id = isset($c_id) ? $c_id + 0 : 0;
+        if($c_id){
+            $catlist=Db::table('article')->where(['c_id'=>$c_id])->limit(6)->select();
+
+        }else{
+            $catlist=Db::table('article')->limit(6)->select();
+        }
+        //展示标题信息
+        $cat=Db::table('category_article')->limit(5)->select();
+        $this -> assign('cat',$cat);
+        $this -> assign('catlist',$catlist);
+        //根据标题信息查询详细内容
+        return $this->fetch('meslist');
     }
+
     //热门内容
     public function mesShow(){
         return view('messhow');
@@ -40,7 +54,7 @@ class Index extends Controller
     //首页
     public function index()
     {
-        $arr=Db::table('introduce')->field('id,img_path,content')->select();
+        $arr=Db::table('introduce')->field('id,img_path,title')->select();
         $cat=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->order('article_id desc')->limit(10)->select();
         $banner=Db::table('banner')->field('b_id,banner_path')->select();
         $this->assign('arr',$arr);

@@ -1,7 +1,7 @@
 <div style="padding:3px 2px;border-bottom:1px solid #ccc">文章添加</div>
 <br>
 <div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
-    <form  id="ff"  method="post"  class="easyui-form" data-options="novalidate:true">
+    <form  id="ff"  method="post" enctype="multipart/form-data"  class="easyui-form" data-options="novalidate:true">
         <div style="margin-bottom:20px">
             <input class="easyui-textbox" required="required" id="title" name="title" style="width:70%" data-options="label:'文章标题:'">
         </div>
@@ -16,6 +16,9 @@
                 <option value="{$val.c_id}">{$val.c_name}</option>
                 {/foreach}
             </select>
+        </div>
+        <div style="margin-bottom:20px">
+            <input type="file" class="easyui-textbox" required="required" id="img" name="img"  style="width:70%" data-options="label:'文章图片:'">
         </div>
     <div style="text-align:center;padding:5px 0">
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="history.go(-1)" style="width:80px">返回</a>
@@ -35,6 +38,8 @@
         var title=$('#title').val();
         var url=$('#url').val();
         var c_id=$('#c_id').val();
+        var img = $('#img').val();
+        alert(img)
         if(title==''){
             return false;
         }
@@ -46,6 +51,7 @@
             return false;
         }
         $.post('article_pots',{title:title,url:url,c_id:c_id},function(msg){
+            alert(msg)
             if(msg==1){
 
                 alert('文章添加成功');location.href='listing';
